@@ -7,4 +7,4 @@ build:
 	docker build -t ocr-app .
 
 run:
-	docker run -p 5000:5000 ocr-app
+	docker run -p 8501:8501 ocr-app
