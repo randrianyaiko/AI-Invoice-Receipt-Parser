@@ -116,6 +116,15 @@ def main():
     display_sidebar()
 
     st.title("Invoice and Receipt Parser: Tesseract OCR + Google Gemini ")
+    st.markdown("""
+        Easily extract structured data (like date, total, and vendor...) from receipts or invoices using OCR and smart parsing.  
+        Just upload an image — get clean JSON output instantly.
+
+        - 🔤 Supports English, Spanish, French, and etc...  
+        - 🔐 Bring your own Gemini API key  
+        - 💾 Download extracted data as JSON  
+        
+        """)
     uploaded_file = upload_image()
 
     if uploaded_file:
