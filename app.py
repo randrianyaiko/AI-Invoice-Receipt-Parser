@@ -115,7 +115,7 @@ def main():
     configure_page()
     display_sidebar()
 
-    st.title("Invoice and Receipt Parser")
+    st.title("Invoice and Receipt Parser: Tesseract OCR + Google Gemini ")
     uploaded_file = upload_image()
 
     if uploaded_file:
