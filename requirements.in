@@ -1,0 +1,10 @@
+pytesseract
+streamlit
+langchain
+langchain-google-genai
+Pillow
+python-dotenv
+opencv-python
+pydantic
+pydantic[email]
+email-validator
