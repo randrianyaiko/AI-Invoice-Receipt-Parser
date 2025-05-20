@@ -28,36 +28,35 @@ def configure_page():
 # ------------------------
 # Sidebar Content
 # ------------------------
+# ------------------------
+# Sidebar Content (Secure)
+# ------------------------
 def display_sidebar():
     with st.sidebar:
-        st.title("📄Receipt and Invoice parser")
-        st.write(
-            "Upload an image of the invoice or receipt to extract text and structure it into JSON."
-        )
+        st.title("📄 Receipt and Invoice Parser")
+        st.write("Upload an image of the invoice or receipt to extract text and structure it into JSON.")
         st.markdown("---")
 
-        st.subheader(" Configurations ")
-        with st.form("api_key_form"):            
-            # Language mapping for display and Tesseract codes
+        st.subheader("🔧 Configurations")
+        with st.form("api_key_form"):
             selected_language = st.selectbox(
                 "Select Language",
                 options=list(LANGUAGES.keys()),
                 index=0,
-                help="Select the language for OCR extraction."
+                help="Select the language for OCR extraction.",
             )
-            
-            selected_language_code = LANGUAGES[selected_language]
+
             api_key_input = st.text_input(
-                "Enter your Gemini API Key 🔐", 
+                "Enter your Gemini API Key 🔐",
                 type="password",
-                value=os.getenv("GOOGLE_GEMINI_APIKEY", "")
-                )
-            
+                value=st.session_state.get("api_key", "")
+            )
+
             submitted = st.form_submit_button("Submit")
             if submitted:
-                os.environ["GOOGLE_GEMINI_APIKEY"] = api_key_input
-                os.environ["LANGUAGE"] = selected_language_code
-                st.success("API key saved to environment for this session.")
+                st.session_state.api_key = api_key_input
+                st.session_state.language_code = LANGUAGES[selected_language]
+                st.success("API key and language saved for this session.")
 
 
 # ------------------------
@@ -95,10 +94,10 @@ def process_and_display_text(image, col):
 
         try:
             text = extract_text_from_image(image_path,language=os.getenv("LANGUAGE"))
-            json_data = extract_invoice_receipt_data(text)
+            json_data = extract_invoice_receipt_data(text, api_key=st.session_state.api_key)
             st.json(json_data)
         except Exception as e:
-            text = f"❌ Error extracting text: {e}"
+            text = f"❌ Error extracting data: {e}"
             st.error(text)
             return
 

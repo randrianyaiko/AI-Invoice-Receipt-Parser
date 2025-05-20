@@ -4,12 +4,7 @@ from dotenv import load_dotenv
 import os
 load_dotenv()
 
-model = ChatGoogleGenerativeAI(
-    model='gemini-2.0-flash',
-    api_key=os.getenv("GOOGLE_GEMINI_APIKEY")
-    )
-
-def extract_invoice_receipt_data(text: str) -> dict:
+def extract_invoice_receipt_data(text: str, api_key: str=os.getenv("GOOGLE_GEMINI_APIKEY")) -> dict:
     """
     Extracts structured data from the provided text using a language model.
 
@@ -19,6 +14,12 @@ def extract_invoice_receipt_data(text: str) -> dict:
     Returns:
         dict: A dictionary containing the extracted structured data.
     """
+
+    model = ChatGoogleGenerativeAI(
+        model='gemini-2.0-flash',
+        api_key=api_key
+        )
+    
     model_with_structure = model.with_structured_output(ResponseFormatter)    
     text = f""" Convert the text here into a structured format\n {text} \n"""
     print("Text to be processed:", text)
